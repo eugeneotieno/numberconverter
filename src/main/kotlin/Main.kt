@@ -1,29 +1,48 @@
 fun main() {
-    print("Enter number in decimal system: ")
-    val num = readln().toInt()
-    print("Enter target base: ")
-    when(readln().toInt()) {
-        2 -> {
-            println("Conversion result: ${Integer.toBinaryString(num)}")
+    var exit = false
+    do {
+        print("Do you want to convert /from decimal or /to decimal? (To quit type /exit) ")
+        when(readln()) {
+            "/from" -> {
+                print("Enter a number in decimal system: ")
+                val num = readln().toInt()
+                print("Enter the target base: ")
+                val target = readln().toInt()
+                convertFromDecimal(num, target)
+            }
+            "/to" -> {
+                print("Enter source number: ")
+                val num = readln()
+                print("Enter source base: ")
+                val target = readln().toInt()
+                convertToDecimal(num, target)
+            }
+            "/exit" -> {
+                exit = true
+            }
         }
-        8 -> {
-            println("Conversion result: ${Integer.toOctalString(num)}")
-        }
-        16 -> {
-            println("Conversion result: ${Integer.toHexString(num)}")
-        }
-    }
+    } while (!exit)
 }
 
-fun convertByBase(num: Int, target: Int) {
-    var converted = ""
-    if (num == 0) converted += "0"
-
-    var n = num
-    while (n > 0) {
-        converted += "${n % target}"
-        n /= target
+fun convertFromDecimal(num: Int, target: Int) {
+    var result = ""
+    when(target) {
+        2 -> {
+            result = Integer.toBinaryString(num)
+        }
+        8 -> {
+            result = Integer.toOctalString(num)
+        }
+        16 -> {
+            result = Integer.toHexString(num)
+        }
     }
 
-    println("Conversion result: ${converted.reversed()}")
+    println("Conversion result: $result")
+    println()
+}
+
+fun convertToDecimal(num: String, target: Int) {
+    println("Conversion to decimal result: ${num.toInt(radix = target)}")
+    println()
 }
